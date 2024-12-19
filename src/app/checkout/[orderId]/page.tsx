@@ -38,16 +38,17 @@ import { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getOrderDetails } from '@/lib/woocommerce';
 import { createCheckoutSession } from '@/lib/square';
-
-// interface CheckoutPageProps {
-//     params: {
-//       orderId: string;
-//     };
-//   }
+interface PageProps {
+    params: {
+      orderId: string;
+    };
+  }
   
-
-export default  function CheckoutPage({ params }:  {params: Promise<{ orderId: string }>}) {
-    const { orderId } = use(params);
+  export default function CheckoutPage({ params }: PageProps) {
+    const { orderId } = params;
+  
+    // Now you can use orderId as a string
+    console.log(orderId);
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
 
