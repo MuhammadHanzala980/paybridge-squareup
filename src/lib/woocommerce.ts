@@ -35,3 +35,24 @@ export async function getOrderDetails(orderId: string) {
   }
 }
 
+export async function updateOrderStatus(orderId: string, status: string) {
+  console.log(`Attempting to update order status for order ID: ${orderId} to ${status}`);
+
+  try {
+    const response = await api.put(`orders/${orderId}`, {
+      status: status
+    });
+    console.log('Order status updated successfully');
+    console.log('Updated order details:', JSON.stringify(response.data, null, 2));
+    return response.data;
+  } catch (error: any) {
+    console.error('Error updating order status:', JSON.stringify(error, null, 2));
+
+    if (error.response) {
+      console.error('Response status:', error.response.status);
+      console.error('Response data:', JSON.stringify(error.response.data, null, 2));
+    }
+
+    throw new Error(`Failed to update order status: ${error.message}`);
+  }
+}
