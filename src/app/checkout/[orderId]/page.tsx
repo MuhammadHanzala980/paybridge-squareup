@@ -39,7 +39,14 @@ import { useRouter } from 'next/navigation';
 import { getOrderDetails } from '@/lib/woocommerce';
 import { createCheckoutSession } from '@/lib/square';
 
-export default async function CheckoutPage({ params }: { params: { orderId: string } }) {
+interface CheckoutPageProps {
+    params: {
+      orderId: string;
+    };
+  }
+  
+
+export default  function CheckoutPage({ params }: CheckoutPageProps) {
     const { orderId } = params;
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
