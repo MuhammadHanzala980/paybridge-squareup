@@ -40,7 +40,7 @@ import { getOrderDetails } from '@/lib/woocommerce';
 import { createCheckoutSession } from '@/lib/square';
 
 export default async function CheckoutPage({ params }: { params: { orderId: string } }) {
-    const { orderId } = await params;
+    const { orderId } = params;
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
 
