@@ -9,12 +9,12 @@ const api = new WooCommerceRestApi({
   version: 'wc/v3'
 });
 
-export async function getOrderDetails(orderId: string) {
-  console.log(`Attempting to fetch order details for order ID: ${orderId}`);
+export async function getOrderDetails(id: string) {
+  console.log(`Attempting to fetch order details for order ID: ${id}`);
   console.log(`WooCommerce API URL: ${process.env.WOOCOMMERCE_STORE_URL}`);
 
   try {
-    const response = await api.get(`orders/${orderId}`);
+    const response = await api.get(`orders/${id}`);
     console.log('Order details fetched successfully');
     console.log('Order details:', JSON.stringify(response.data, null, 2));
     return response.data;
@@ -27,19 +27,19 @@ export async function getOrderDetails(orderId: string) {
     }
 
     if (error.response && error.response.status === 404) {
-      console.error(`Order with ID ${orderId} not found`);
-      throw new Error(`Order not found: ${orderId}`);
+      console.error(`Order with ID ${id} not found`);
+      throw new Error(`Order not found: ${id}`);
     }
 
     throw new Error(`Failed to fetch order details: ${error.message}`);
   }
 }
 
-export async function updateOrderStatus(orderId: string, status: string) {
-  console.log(`Attempting to update order status for order ID: ${orderId} to ${status}`);
+export async function updateOrderStatus(id: string, status: string) {
+  console.log(`Attempting to update order status for order ID: ${id} to ${status}`);
 
   try {
-    const response = await api.put(`orders/${orderId}`, {
+    const response = await api.put(`orders/${id}`, {
       status: status
     });
     console.log('Order status updated successfully');
