@@ -34,20 +34,20 @@
 
 'use client'
 
-import { useEffect, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getOrderDetails } from '@/lib/woocommerce';
 import { createCheckoutSession } from '@/lib/square';
 
-interface CheckoutPageProps {
-    params: {
-      orderId: string;
-    };
-  }
+// interface CheckoutPageProps {
+//     params: {
+//       orderId: string;
+//     };
+//   }
   
 
-export default  function CheckoutPage({ params }: CheckoutPageProps) {
-    const { orderId } = params;
+export default  function CheckoutPage({ params }:  {params: Promise<{ orderId: string }>}) {
+    const { orderId } = use(params);
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
 
