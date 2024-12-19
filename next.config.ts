@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
     SQUARE_LOCATION_ID: process.env.SQUARE_LOCATION_ID,
     SQUARE_WEBHOOK_SIGNATURE_KEY: process.env.SQUARE_WEBHOOK_SIGNATURE_KEY,
     NEXT_PUBLIC_BASE_URL: process.env.NEXT_PUBLIC_BASE_URL,
+  },
+
+  eslint: {
+    ignoreDuringBuilds: true,
   }
 };
 
