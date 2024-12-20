@@ -3,15 +3,15 @@
 import WooCommerceRestApi from '@woocommerce/woocommerce-rest-api';
 
 const api = new WooCommerceRestApi({
-  url: process.env.WOOCOMMERCE_STORE_URL!,
-  consumerKey: process.env.WOOCOMMERCE_CONSUMER_KEY!,
-  consumerSecret: process.env.WOOCOMMERCE_CONSUMER_SECRET!,
+  url: process.env.NEXT_PUBLIC_WOOCOMMERCE_STORE_URL!,
+  consumerKey: process.env.NEXT_PUBLIC_WOOCOMMERCE_CONSUMER_KEY!,
+  consumerSecret: process.env.NEXT_PUBLIC_WOOCOMMERCE_CONSUMER_SECRET!,
   version: 'wc/v3'
 });
 
 export async function getOrderDetails(id: string) {
   console.log(`Attempting to fetch order details for order ID: ${id}`);
-  console.log(`WooCommerce API URL: ${process.env.WOOCOMMERCE_STORE_URL}`);
+  console.log(`WooCommerce API URL: ${process.env.NEXT_PUBLIC_WOOCOMMERCE_STORE_URL}`);
 
   try {
     const response = await api.get(`orders/${id}`);

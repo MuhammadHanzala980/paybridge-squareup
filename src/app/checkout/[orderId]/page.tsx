@@ -57,10 +57,7 @@ export default function CheckoutPage({ params }: PageProps) {
         processCheckout();
     }, [orderId, router]);
 
-    if (error) {
-        return <div>{error}</div>;
-    }
-
+ 
     return <div>Processing your order...</div>;
 }
 
