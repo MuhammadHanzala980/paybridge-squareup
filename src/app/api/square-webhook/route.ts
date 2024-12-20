@@ -58,10 +58,13 @@ export async function POST(req: NextRequest) {
 
   if (event.type === 'payment.updated') {
     const payment = event.data?.object?.payment;
+    const orderId = payment.order_id;
+
+    console.log(event, "event");
     console.log("payment", payment);
     if (payment && payment.status === 'COMPLETED') {
       try {
-        await updateOrderStatus(payment.order_id, 'completed');
+        await updateOrderStatus(orderId, 'completed');
         console.log(`Order ${payment.order_id} status updated to completed`);
         return NextResponse.json({ success: true });
       } catch (error) {

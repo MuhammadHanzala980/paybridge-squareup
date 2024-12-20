@@ -12,24 +12,47 @@ export async function createCheckoutSession(orderDetails: any) {
 
   console.log('Creating Square checkout session for order:', orderId);
 
+  // const body: CreatePaymentLinkRequest = {
+  //   idempotencyKey: `${orderId}-${Date.now()}`,
+  //   order: {
+  //     locationId: process.env.SQUARE_LOCATION_ID!,
+  //     lineItems: lineItems.map((item: any) => ({
+  //       name: item.name,
+  //       reference_id: orderId,
+  //       quantity: item.quantity.toString(),
+  //       basePriceMoney: {
+  //         amount: BigInt(Math.round(parseFloat(item.price) * 100)),
+  //         currency: "USD",
+  //       },
+  //     })),
+  //   },
+  //   checkoutOptions: {
+  //     redirectUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success`,
+  //   },
+
+
+  // };
   const body: CreatePaymentLinkRequest = {
     idempotencyKey: `${orderId}-${Date.now()}`,
     order: {
       locationId: process.env.SQUARE_LOCATION_ID!,
       lineItems: lineItems.map((item: any) => ({
         name: item.name,
-        reference_id: orderId,
         quantity: item.quantity.toString(),
         basePriceMoney: {
-          amount: BigInt(Math.round(parseFloat(item.price) * 100)),
+          amount: item.price,
           currency: "USD",
         },
       })),
+      metadata: {
+        woocommerce_order_id: orderId
+      }
     },
     checkoutOptions: {
       redirectUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/checkout/success`,
     },
   };
+
 
   try {
     const response = await client.checkoutApi.createPaymentLink(body);
