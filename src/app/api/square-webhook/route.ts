@@ -20,7 +20,7 @@
 //   const hmac = crypto.createHmac('sha256', signatureKey);
 //   hmac.update(body);
 //   const expectedSignature = hmac.digest('base64');
-  
+
 //   console.log('Square Signature:', squareSignature);
 //   console.log('Expected Signature:', expectedSignature);
 
@@ -58,6 +58,7 @@ export async function POST(req: NextRequest) {
 
   if (event.type === 'payment.updated') {
     const payment = event.data?.object?.payment;
+    console.log("payment", payment);
     if (payment && payment.status === 'COMPLETED') {
       try {
         await updateOrderStatus(payment.order_id, 'completed');
