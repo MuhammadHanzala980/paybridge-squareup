@@ -5,12 +5,12 @@ import { updateOrderStatus } from '@/lib/woocommerce';
 export async function POST(req: NextRequest) {
   const body = await req.text();
   const squareSignature = req.headers.get('x-square-signature');
-
+  console.log("Updating order status")
   // Verify Square signature
   const hmac = crypto.createHmac('sha256', process.env.SQUARE_WEBHOOK_SIGNATURE_KEY!);
   hmac.update(body);
   const expectedSignature = hmac.digest('base64');
-
+  console.log("squareSignature:", squareSignature, "expectedSignature:", expectedSignature)
   if (squareSignature !== expectedSignature) {
     console.error('Invalid Square signature');
     return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
