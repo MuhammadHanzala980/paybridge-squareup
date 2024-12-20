@@ -5,18 +5,25 @@ import { updateOrderStatus } from '@/lib/woocommerce';
 export async function POST(req: NextRequest) {
   const body = await req.text();
   const squareSignature = req.headers.get('x-square-hmacsha256-signature');
+  const signatureKey = process.env.SQUARE_WEBHOOK_SIGNATURE_KEY?.trim();
 
-  const signatureKey = process.env.SQUARE_WEBHOOK_SIGNATURE_KEY;
   if (!signatureKey) {
     console.error('Missing SQUARE_WEBHOOK_SIGNATURE_KEY environment variable');
     return NextResponse.json({ error: 'Server configuration error' }, { status: 500 });
   }
 
+  // Log the raw body and signature key length for debugging
+  console.log('Raw body:', body);
+  console.log('Body length:', body.length);
+  console.log('Signature key length:', signatureKey.length);
+
   const hmac = crypto.createHmac('sha256', signatureKey);
   hmac.update(body);
   const expectedSignature = hmac.digest('base64');
-  console.log("Square Signature", squareSignature)
-  console.log("Expected Signature", expectedSignature)
+  
+  console.log('Square Signature:', squareSignature);
+  console.log('Expected Signature:', expectedSignature);
+
   if (squareSignature !== expectedSignature) {
     console.error('Invalid Square signature');
     return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
