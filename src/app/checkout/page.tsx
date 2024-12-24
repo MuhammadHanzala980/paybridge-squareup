@@ -2,7 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { getOrderDetails } from '@/lib/woocommerce';
 import { createCheckoutSession } from '@/lib/square';
 
@@ -14,10 +14,14 @@ export default function CheckoutPage({ params }: PageProps) {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
     const [orderId, setOrderId] = useState<string | null>(null);
+    const searchParams = useSearchParams();
+
     const [stage, setStage] = useState<'initializing' | 'processing' | 'redirecting' | 'error'>('initializing');
     useEffect(() => {
         const getOrderId = async () => {
-            const id = (await params).orderId
+            // const id = (await params).orderId
+            const id = searchParams.get('orderId');
+
             setOrderId(id);
         }
         getOrderId();
@@ -79,7 +83,7 @@ export default function CheckoutPage({ params }: PageProps) {
                         <p className="text-lg font-medium text-gray-700 mb-2">
                             {messages[stage]}
                         </p>
-                     
+
                     </>
                 )}
             </div>
