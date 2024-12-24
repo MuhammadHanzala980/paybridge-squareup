@@ -2,7 +2,7 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { getOrderDetails } from '@/lib/woocommerce';
 import { createCheckoutSession } from '@/lib/square';
 
@@ -14,19 +14,21 @@ export default function CheckoutContent() {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
     const [orderId, setOrderId] = useState<string | null>(null);
-    const searchParams = useSearchParams();
+    // const searchParams = useSearchParams();
 
     const [stage, setStage] = useState<'initializing' | 'processing' | 'redirecting' | 'error'>('initializing');
     useEffect(() => {
 
         const getOrderId = async () => {
             // const id = (await params).orderId
-            const id = searchParams.get('orderId');
-
+            // const id = searchParams.get('orderId');
+            const searchParams = new URLSearchParams(window.location.search);
+            const id = searchParams.get("orderId");
+console.log(id, "order id")
             setOrderId(id);
         }
         getOrderId();
-    }, [searchParams]);
+    }, [router]);
 
     useEffect(() => {
         async function processCheckout() {
@@ -60,7 +62,7 @@ export default function CheckoutContent() {
         }
 
         processCheckout();
-    }, [orderId, searchParams]);
+    }, [orderId]);
 
 
     const messages = {
