@@ -45,7 +45,7 @@ export async function createCheckoutSession(orderDetails: any) {
         },
       })),
       metadata: {
-        woocommerce_order_id: orderId
+        woocommerce_order_id: orderId.toString()
       }
     },
     checkoutOptions: {

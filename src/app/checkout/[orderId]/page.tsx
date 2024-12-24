@@ -14,7 +14,7 @@ export default function CheckoutPage({ params }: PageProps) {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
     const [orderId, setOrderId] = useState<string | null>(null);
-
+    const [stage, setStage] = useState<'initializing' | 'processing' | 'redirecting' | 'error'>('initializing');
     useEffect(() => {
         const getOrderId = async () => {
             const id = (await params).orderId
@@ -26,7 +26,7 @@ export default function CheckoutPage({ params }: PageProps) {
     useEffect(() => {
         async function processCheckout() {
             if (!orderId) {
-                setError('Invalid order ID. Please try again.');
+                // setError('Invalid order ID. Please try again.');
                 return;
             }
 
@@ -46,10 +46,10 @@ export default function CheckoutPage({ params }: PageProps) {
                 // Use router.push for client-side navigation
                 router.push(checkoutUrl);
             } catch (error: any) {
-                console.error('Checkout error:', error);
-                const errorMessage = error.message === 'Order not found'
+                console.log('Checkout error:', error);
+                const errorMessage = error.Error === 'Order not found'
                     ? 'The specified order was not found. Please check your order ID and try again.'
-                    : 'An unexpected error occurred during checkout. Please try again or contact support.';
+                    : 'Order not found';
                 setError(errorMessage);
             }
         }
@@ -57,8 +57,35 @@ export default function CheckoutPage({ params }: PageProps) {
         processCheckout();
     }, [orderId, router]);
 
- 
-    return <div>Processing your order...</div>;
+
+    const messages = {
+        initializing: "Preparing your magical checkout experience...",
+        processing: "Crafting your perfect order. This won't take long!",
+        redirecting: "Your gateway to awesome products is opening...",
+        error: "Oops! We've hit a snag. But don't worry, we're on it!"
+    };
+
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-white-100">
+            <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-md text-center">
+                <h1 className="text-2xl font-bold text-gray-800 mb-4">
+                    {stage === 'error' ? 'Checkout Issue' : 'Secure Checkout'}
+                </h1>
+                {error ? (
+                    <p className="text-red-500 mt-4">{error}</p>
+                ) : (
+                    <>
+                        <div className="w-8 h-8 border-4 border-gray-200 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+                        <p className="text-lg font-medium text-gray-700 mb-2">
+                            {messages[stage]}
+                        </p>
+                     
+                    </>
+                )}
+            </div>
+        </div>
+    );
 }
+
 
 
