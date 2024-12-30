@@ -40,7 +40,7 @@ export async function createCheckoutSession(orderDetails: any) {
         name: item.name,
         quantity: item.quantity.toString(),
         basePriceMoney: {
-          amount: item.price,
+          amount: item.price * 100,
           currency: "CAD",
         },
       })),
