@@ -10,4 +10,4 @@ export default function SuccessPage() {
     );
   }
   
-  
+ //https://neogenix.co/checkout/order-received/1598/?key=wc_order_cMnvvCNBjJpCk

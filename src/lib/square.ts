@@ -4,7 +4,7 @@ import { Client, Environment, CreatePaymentLinkRequest } from 'square';
 
 const client = new Client({
   accessToken: process.env.SQUARE_ACCESS_TOKEN,
-  environment: Environment.Sandbox, // Change to Environment.Production for live transactions
+  environment: Environment.Production, // Change to Environment.Production for live transactions
 });
 
 export async function createCheckoutSession(orderDetails: any) {
