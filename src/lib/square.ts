@@ -4,7 +4,7 @@ import { Client, Environment, CreatePaymentLinkRequest } from 'square';
 
 const client = new Client({
   accessToken: process.env.SQUARE_ACCESS_TOKEN,
-  environment: Environment.Production, // Change to Environment.Production for live transactions
+  environment: Environment.Production,
 });
 
 export async function createCheckoutSession(orderDetails: any) {
@@ -37,11 +37,11 @@ export async function createCheckoutSession(orderDetails: any) {
     order: {
       locationId: process.env.SQUARE_LOCATION_ID!,
       lineItems: lineItems.map((item: any) => ({
-        name: item.name,
+        name: item.id.toString(),
         quantity: item.quantity.toString(),
         basePriceMoney: {
           amount: item.price * 100,
-          currency: "CAD",
+          currency: currency || "CAD",
         },
       })),
       metadata: {

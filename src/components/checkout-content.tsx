@@ -23,8 +23,9 @@ export default function CheckoutContent() {
             // const id = (await params).orderId
             // const id = searchParams.get('orderId');
             const searchParams = new URLSearchParams(window.location.search);
-            const id = searchParams.get("orderId");
-console.log(id, "order id")
+            const id = searchParams.get("orderid");
+            localStorage.setItem("orderId", id!);
+            console.log(id, "order id")
             setOrderId(id);
         }
         getOrderId();
