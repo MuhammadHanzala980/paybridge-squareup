@@ -37,7 +37,7 @@ export async function createCheckoutSession(orderDetails: any) {
     order: {
       locationId: process.env.SQUARE_LOCATION_ID!,
       lineItems: lineItems.map((item: any) => ({
-        name: item.id.toString(),
+        name:  `Product ${item.id.toString()}`,
         quantity: item.quantity.toString(),
         basePriceMoney: {
           amount: item.price * 100,

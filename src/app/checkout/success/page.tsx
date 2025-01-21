@@ -2,12 +2,8 @@
 
 import { updateOrderStatus } from "@/lib/woocommerce"
 import { useEffect } from "react"
-
-type PageProps = {
-  params: { orderId: number }
-}
-
-export default function SuccessPage({ params }: PageProps) {
+ 
+export default function SuccessPage( ) {
   useEffect(() => {
     const updateOrder = async () => {
       try {
