@@ -41,7 +41,7 @@ export async function createCheckoutSession(orderDetails: any) {
         quantity: item.quantity.toString(),
         basePriceMoney: {
           amount: item.price * 100,
-          currency: process.env.CURRENCY || "USD",
+          currency:currency // process.env.CURRENCY || "USD",
         },
       })),
       metadata: {
