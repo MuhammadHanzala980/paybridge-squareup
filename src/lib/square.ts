@@ -37,11 +37,11 @@ export async function createCheckoutSession(orderDetails: any) {
     order: {
       locationId: process.env.SQUARE_LOCATION_ID!,
       lineItems: lineItems.map((item: any) => ({
-        name:  `Product ${item.id.toString()}`,
+        name: `Product: ${item.id}`,
         quantity: item.quantity.toString(),
         basePriceMoney: {
           amount: item.price * 100,
-          currency: currency || "CAD",
+          currency: "USD",
         },
       })),
       metadata: {
