@@ -6,10 +6,6 @@ import { useRouter } from 'next/navigation';
 import { getOrderDetails } from '@/lib/woocommerce';
 import { createCheckoutSession } from '@/lib/square';
 
-// type PageProps = {
-// params: Promise<{ orderId: string }>;
-// };
-
 export default function CheckoutContent() {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
@@ -34,7 +30,6 @@ export default function CheckoutContent() {
     useEffect(() => {
         async function processCheckout() {
             if (!orderId) {
-                // setError('Invalid order ID. Please try again.');
                 return;
             }
 
@@ -47,12 +42,15 @@ export default function CheckoutContent() {
                     throw new Error('Order not found');
                 }
 
-                console.log('Creating Square checkout session');
-                const checkoutUrl = await createCheckoutSession(orderDetails);
-                console.log('Square checkout URL:', checkoutUrl);
+                console.log('Creating Square checkout session ...');
+                const checkoutSession = await createCheckoutSession(orderDetails);
+                console.log('Square checkout URL:', checkoutSession?.result.paymentLink?.url);
+                const checkoutUrl: string | any = checkoutSession?.result.paymentLink?.url;
+                const transection_id: string | any = checkoutSession?.result.paymentLink?.id;
+                localStorage.setItem("transection_id", transection_id);
 
-                // Use router.push for client-side navigation
                 router.push(checkoutUrl);
+                console.log(checkoutSession, "checkout session created")
             } catch (error: any) {
                 console.log('Checkout error:', error);
                 const errorMessage = error.Error === 'Order not found'

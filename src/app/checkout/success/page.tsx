@@ -8,11 +8,19 @@ export default function SuccessPage( ) {
     const updateOrder = async () => {
       try {
         const orderId = await localStorage.getItem("orderId")
+        const transaction_id = await localStorage.getItem("transection_id")
         console.log(orderId, "order id")
         if (orderId) {
-         const updatedOrder = await updateOrderStatus(orderId, "processing")
+          const payload = {
+            id: orderId,
+            transaction_id: transaction_id,
+            status: "processing",
+            note: "Payment Confirmed: Order updated to processing"
+          }
+         const updatedOrder = await updateOrderStatus(payload)
         console.log(updatedOrder)
          localStorage.removeItem("orderId")
+         localStorage.removeItem("transection_id")
         }
       } catch (error) {
         console.error("Error updating order status:", error)
